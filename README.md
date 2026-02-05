@@ -1,12 +1,12 @@
 # LaptopsData_Cleaning_Using_SQL
-###Laptop Data Cleaning & Transformation using SQL
+### Laptop Data Cleaning & Transformation using SQL
 A structured SQL-based data cleaning project focused on transforming a raw laptops dataset into a clean, analysis-ready format by handling inconsistent text fields, mixed units, and unstructured columns.
 
-###Short Description / Purpose
+### Short Description / Purpose
 The Laptop Data Cleaning project is designed to clean, standardize, and restructure a real-world laptops dataset using SQL.
 The purpose of this project is to demonstrate how raw, messy data can be converted into structured and reliable data that is ready for analysis, reporting, and visualization.
 
-###Tech Stack
+### Tech Stack
 The project was built using the following tools and technologies:<br>
 • 🗄 SQL (MySQL) – Core language used for data cleaning and transformation.<br>
 • 🔤 SQL String Functions – Used for splitting, replacing, and extracting text values.<br>
@@ -14,13 +14,13 @@ The project was built using the following tools and technologies:<br>
 • 🔄 Data Type Conversion – Converted text-based fields into numeric formats for analysis.<br>
 • 📁 Relational Tables – Structured cleaned data into multiple meaningful columns.
 
-###Data Source
+### Data Source
 Source: Kaggle
 The dataset contains information about laptops, including hardware specifications, screen details, operating systems, and pricing.
 Rows: 1300+
 Original Columns: index, Unnamed: 0 ,Company,TypeName,Inches,ScreenResolution,Cpu,Ram,Memory,Gpu,OpSys,Weight,Price
 
-###Features / Highlights
+### Features / Highlights
 🔹 Business Problem
 Laptop datasets collected from online sources often contain unstructured and mixed-format data.
 Columns such as CPU, GPU, Memory, RAM, and Screen Resolution combine multiple attributes into a single field, making analysis difficult and error-prone.
@@ -63,7 +63,7 @@ Improved Data Quality: Eliminates ambiguity from text-heavy columns
 Scalable Design: Clean schema can be reused for dashboards and ML models
 Real-World Skill Demonstration: Reflects practical SQL skills used in data analyst roles
 
-###Screenshots / Demos
+### Screenshots / Demos
 
 Below are example visuals from the project:
 
