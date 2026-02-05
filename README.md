@@ -77,5 +77,5 @@ Original Columns: index, Unnamed: 0 ,Company,TypeName,Inches,ScreenResolution,Cp
 
 Below are example visuals from the project:
 
-![Raw Dataset](screenshots/raw_dataset.png)
 ![Cleaned Dataset](https://github.com/mohdwaseem321/Laptops-Data-Cleaning-Using-SQL/blob/main/Before%20Cleaning.jpg)
+![Cleaned Dataset](https://github.com/mohdwaseem321/Laptops-Data-Cleaning-Using-SQL/blob/main/After%20Cleaning.jpg)
