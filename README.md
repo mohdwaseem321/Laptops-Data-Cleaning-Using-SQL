@@ -26,74 +26,52 @@ Original Columns: index, Unnamed: 0 ,Company,TypeName,Inches,ScreenResolution,Cp
 ### Features / Highlights
 🔹 Business Problem
 
-Laptop datasets collected from online sources often contain unstructured and mixed-format data.
-
-Columns such as CPU, GPU, Memory, RAM, and Screen Resolution combine multiple attributes into a single field, making analysis difficult and error-prone.
-
-Key challenges include:
-
-Mixed units (GB & TB) in storage fields
-
-Text-heavy columns storing multiple values
-
-Inconsistent formats across rows
-
-Poor suitability for aggregation and visualization
+-  Laptop datasets collected from online sources often contain unstructured and mixed-format data.
+-  Columns such as CPU, GPU, Memory, RAM, and Screen Resolution combine multiple attributes into a single field, making analysis difficult and error-prone.
+-  Key challenges include:
+-  Mixed units (GB & TB) in storage fields
+-  Text-heavy columns storing multiple values
+-  Inconsistent formats across rows
+-  Poor suitability for aggregation and visualization
 
 🔹 Goal of the Project
 
-To build a clean, structured, and analysis-ready dataset by:
-
-Breaking down complex columns into meaningful attributes
-
-Standardizing numeric values
-
-Improving data quality and usability
-
-Demonstrating real-world SQL data cleaning skills
+-  To build a clean, structured, and analysis-ready dataset by:
+-  Breaking down complex columns into meaningful attributes
+-  Standardizing numeric values
+-  Improving data quality and usability
+-  Demonstrating real-world SQL data cleaning skills
 
 🔹 Walkthrough of Key Cleaning Steps
 
 🧠 Data Safety & Validation
 
-Created a backup table before starting transformations
-
-Verified row counts to ensure no data loss
-
-Checked memory consumption for reference
+-  Created a backup table before starting transformations
+-  Verified row counts to ensure no data loss
+-  Checked memory consumption for reference
 
 🧹 Structural Cleaning
 
-Dropped non-important and redundant columns
-
-Optimized data types for better performance
+-  Dropped non-important and redundant columns
+-  Optimized data types for better performance
 
 ⚙️ Column-wise Transformations
 
-RAM Column, Removed GB
-
-Converted values into numeric format
-
-CPU Column Split into:-  Cpu_Brand, Cpu_Speed
-
-GPU Column Split into:-   Gpu_Brand, Gpu_Name
-
-ScreenResolution Column Split into:-   Resolution_Width, Resolution_Height
-
-Touch_Screen (Yes / No)
-
-Memory Column Split into:-   Memory_Type (SSD / HDD / Hybrid), Primary_Storage, Secondary_Storage
-
-Handled both GB and TB units using conditional logic
+-  RAM Column, Removed GB
+-  Converted values into numeric format
+-  CPU Column Split into:-  Cpu_Brand, Cpu_Speed
+-  GPU Column Split into:-   Gpu_Brand, Gpu_Name
+-  ScreenResolution Column Split into:-   Resolution_Width, Resolution_Height
+-  Touch_Screen (Yes / No)
+-  Memory Column Split into:-   Memory_Type (SSD / HDD / Hybrid), Primary_Storage, Secondary_Storage
+-  Handled both GB and TB units using conditional logic
 
 🔹 Business Impact & Insights
 
 -  Analysis Ready Data: Enables accurate aggregation, filtering, and visualization
-Improved Data Quality: Eliminates ambiguity from text-heavy columns
-
-Scalable Design: Clean schema can be reused for dashboards and ML models
-
-Real-World Skill Demonstration: Reflects practical SQL skills used in data analyst roles
+-  Improved Data Quality: Eliminates ambiguity from text-heavy columns
+-  Scalable Design: Clean schema can be reused for dashboards and ML models
+-  Real-World Skill Demonstration: Reflects practical SQL skills used in data analyst roles
 
 ### Screenshots / Demos
 
