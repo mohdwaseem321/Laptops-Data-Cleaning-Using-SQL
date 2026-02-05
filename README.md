@@ -88,8 +88,7 @@ Handled both GB and TB units using conditional logic
 
 🔹 Business Impact & Insights
 
-Analysis Ready Data: Enables accurate aggregation, filtering, and visualization
-
+-  Analysis Ready Data: Enables accurate aggregation, filtering, and visualization
 Improved Data Quality: Eliminates ambiguity from text-heavy columns
 
 Scalable Design: Clean schema can be reused for dashboards and ML models
