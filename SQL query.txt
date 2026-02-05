@@ -1,0 +1,195 @@
+SELECT * FROM laptops; 
+
+-- Create data backup
+CREATE TABLE laptops_backup LIKE laptops;
+
+INSERT INTO laptops_backup
+SELECT * FROM laptops;
+
+-- check number of rows
+SELECT COUNT(*) FROM laptops;
+
+-- Check memory consumption for reference
+SELECT * FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'cleaning_eda'
+AND TABLE_NAME = 'laptops';
+
+SELECT DATA_LENGTH/1024 FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'cleaning_eda'
+AND TABLE_NAME = 'laptops';
+
+-- DROP non important columns
+ALTER TABLE laptops DROP COLUMN `Unnamed: 0`;
+
+-- DROP Empty rows
+DELETE FROM laptops 
+WHERE `index` IN (SELECT `index` FROM laptops
+WHERE Company IS NULL AND TypeName IS NULL AND Inches IS NULL AND ScreenResolution
+IS NULL AND Cpu IS NULL AND Ram IS NULL AND Memory IS NULL AND Gpu IS NULL AND OpSys
+IS NULL AND Weight IS NULL AND Price IS NULL);
+
+-- Change Data types 
+ALTER TABLE laptops MODIFY COLUMN Inches DECIMAL(10,1);
+ALTER TABLE laptops MODIFY COLUMN Price DECIMAL(10,1);
+
+-- chcek categorical column Format , null have or not etc
+SELECT DISTINCT Company FROM laptops;
+SELECT DISTINCT TypeName FROM laptops;
+
+-- Ram Column (8GB) remove GB from intire columns
+UPDATE laptops
+SET Ram = REPLACE(ram, 'GB', '');
+
+ALTER TABLE laptops MODIFY COLUMN Ram INT;
+
+-- Weight Column (1.4kg) remove kg from intire columbn
+UPDATE laptops
+SET Weight = REPLACE(Weight, 'kg', '');
+
+ALTER TABLE laptops
+RENAME COLUMN Weight TO `Weigth(kg)`;
+
+-- OpSys Columns  
+SELECT DISTINCT OpSys FROM laptops;
+
+		-- mac ------> macos
+        -- windows ------> windows
+        -- linux ------> linux
+        -- no os ------> N/A
+        -- Android,chrome ------> (other)
+UPDATE laptops
+SET OpSys = CASE
+	WHEN OpSys LIKE '%mac%' THEN 'macos'
+    WHEN OpSys LIKE 'windows%' THEN 'windows'
+    WHEN OpSys LIKE '%linux%' THEN 'linux'
+    WHEN OpSys = 'NO OS' THEN 'N/A'
+    ELSE 'other'
+END;
+
+-- Gpu column , this column split into gpu_name , gpu_brand
+
+		-- Add Two column in table Gpu_Name , Gpu_Brand
+				ALTER TABLE laptops
+				ADD COLUMN Gpu_Brand VARCHAR(255) AFTER Gpu,
+				ADD COLUMN Gpu_Name VARCHAR(255) AFTER Gpu_Brand;
+
+		-- extract gpu brand from gup column and update in Gpu_Brand Column
+				UPDATE laptops
+				SET Gpu_Brand = SUBSTRING_INDEX(Gpu, ' ', 1);  
+        
+        -- From gpu column Inter all left text in gpu_name
+				UPDATE laptops
+				SET Gpu_Name = TRIM(REPLACE(Gpu, Gpu_Brand, ''))
+				WHERE Gpu IS NOT NULL;
+      
+		-- Drop gup column 
+			ALTER TABLE laptops
+			DROP COLUMN Gpu;
+      
+-- Cpu columns, This column split in two columns Cpu_Brand, Cpu_Speed
+
+		-- Add Three column in table Cpu_Brand, Cpu_Name, Cpu_Speed
+				ALTER TABLE laptops
+				ADD COLUMN Cpu_Brand VARCHAR(255) AFTER Cpu,
+				ADD COLUMN Cpu_Name VARCHAR(255) AFTER Cpu_Brand,
+				ADD COLUMN Cpu_Speed VARCHAR(255) AFTER Cpu_Name;
+		
+        -- extract CPU Brand 
+		      UPDATE laptops
+		      SET Cpu_Brand = SUBSTRING_INDEX(Cpu, ' ', 1); 
+              
+		-- extract CPU Speed 
+			  UPDATE laptops
+		      SET Cpu_Speed = SUBSTRING_INDEX(Cpu, ' ', -1);
+              
+		-- Delete CPU column
+             ALTER TABLE laptops
+             DROP COLUMN Cpu;
+             
+-- ScreenResolution Column, This column split in three columns Resolution_Width,Resolution_Length,Touch_Screen
+
+		-- Add Three column in table Resolution_Width,Resolution_Length,Touch_Screen
+				ALTER TABLE laptops
+				ADD COLUMN Resolution_Width INT AFTER ScreenResolution,
+				ADD COLUMN Resolution_Length INT AFTER Resolution_Width,
+				ADD COLUMN Touch_Screen VARCHAR (255) AFTER Resolution_Heigth;
+                
+		-- Extract Resolution_Width,Resolution_Length
+				UPDATE laptops
+				SET Resolution_Width = SUBSTRING_INDEX(SUBSTRING_INDEX(ScreenResolution,' ',-1),'x',1),
+				Resolution_Heigth = SUBSTRING_INDEX(SUBSTRING_INDEX(ScreenResolution,' ',-1),'x',-1);
+    
+		-- Extract Touch screen
+				UPDATE laptops
+				SET Touch_Screen = CASE
+					WHEN ScreenResolution LIKE '%Touch%' THEN 'Yes'
+				ELSE 'No'
+				END;
+		-- Delete ScreenResolution Column
+				ALTER TABLE laptops
+				DROP COLUMN ScreenResolution;
+
+-- Memory Column, From This column extract Memory_Type,Primary_Storage and Secondary_Storage
+
+		-- Add Three column in table Memory_Type,Primary_Storage and Secondary_Storage
+				ALTER TABLE laptops
+				ADD COLUMN Memory_Type VARCHAR(255) AFTER Memory,
+				ADD COLUMN Primary_Storage INT AFTER Memory_Type,
+				ADD COLUMN Secondary_Storage INT AFTER  Primary_Storage;
+		
+        -- Extract Memory_Type
+				UPDATE laptops
+				SET Memory_Type = CASE
+					WHEN Memory LIKE '%SSD%' AND  Memory LIKE '%HDD%' THEN 'Hybrid'
+					WHEN Memory LIKE '%SSD%' THEN 'SDD'
+					WHEN Memory LIKE '%HDD%' THEN 'HDD'
+					WHEN Memory LIKE '%Flash Storage%' THEN 'Flash Storage'
+					WHEN Memory LIKE '%Hybrid%' THEN 'Hybrid'
+					WHEN Memory LIKE '%Flash Storage%' AND  Memory LIKE '%HDD%' THEN 'Hybrid'
+				END;
+		-- Extract Primary_Storage,Secondary_Storage
+				UPDATE laptops
+				SET Primary_Storage = REGEXP_SUBSTR(SUBSTRING_INDEX(Memory,'+',1),'[0-9]+'),
+				Secondary_Storage = CASE 
+					WHEN Memory LIKE '%+%' THEN REGEXP_SUBSTR(SUBSTRING_INDEX(Memory,'+',-1),'[0-9]+')
+                    ELSE 0 
+                    END;
+                    
+		-- convert 1TB and 2TB into GB in primary storage
+				UPDATE laptops
+					SET Primary_Storage = CASE
+					WHEN Primary_Storage <=2 THEN Primary_Storage*1024
+					ELSE Primary_Storage
+					END;
+                    
+		-- convert 1TB and 2TB into GB in Secondary storage
+				UPDATE laptops
+				SET Secondary_Storage = CASE
+				WHEN Secondary_Storage <=2  THEN Secondary_Storage*1024
+				ELSE Secondary_Storage
+				END;
+                
+		-- Delete memory column
+			ALTER TABLE laptops
+			DROP COLUMN Memory;
+            
+            
+SELECT * FROM laptops
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
